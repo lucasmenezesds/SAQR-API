@@ -49,17 +49,18 @@ module NormalDistributionFunctions
     (z_area * std_dev) + mean
   end
 
-  def self.area_to_paint(intervals, std_dev, mean)
-    z_score_values = intervals.map do |interval|
-      z_area = z_score_given_area(interval)
-      z_position(std_dev, mean, z_area)
-    end
-    ordered_z_values = z_score_values.sort
+  def self.area_to_paint(intervals, _std_dev, _mean)
+    z_score_values = intervals
+    #                    .map do |interval|
+    #   z_area = z_score_given_area(interval)
+    #   z_position(std_dev, mean, z_area)
+    # end
+    sorted_z_values = z_score_values.sort
 
     # This index_start is to make the coloring for the front dynamic on Highcharts.js based on the interval parameter
-    index_start = ordered_z_values.size - 1
+    index_start = sorted_z_values.size - 1
 
-    ordered_z_values.map.with_index(index_start) do |val, index|
+    sorted_z_values.map.with_index(index_start) do |val, index|
       paint_range = if index.even?
                       true
                     else
@@ -68,5 +69,30 @@ module NormalDistributionFunctions
       { value: val,
         color: paint_range }
     end
+  end
+
+  def self.calculate_z(x_value:, mean:, std_dev:)
+    (x_value - mean) / std_dev
+  end
+
+  def self.intervals_probability(intervals, std_dev, mean)
+    sorted_intervals = intervals.sort
+
+    z_score_values = sorted_intervals.map do |interval|
+      z = calculate_z(x_value: interval, mean: mean, std_dev: std_dev)
+      Ztable.percentile(z)
+    end
+
+    final_probability = if z_score_values.size > 1
+                          sorted_z_score_values = z_score_values.sort
+                          (sorted_z_score_values[1] - sorted_z_score_values[0])
+                        else
+                          (z_score_values[0])
+                        end
+
+    success = final_probability * 100.0
+    failure = (1 - final_probability) * 100.0
+
+    [success, failure]
   end
 end

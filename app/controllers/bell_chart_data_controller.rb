@@ -16,9 +16,9 @@ class BellChartDataController < ApplicationController
     alpha_value = params.fetch('alpha-value', 95).to_f / 100
 
     intervals = []
-    intervals << params.dig(:"interval-option", :values, :from).to_f / 100.0
+    intervals << params.dig(:"interval-option", :values, :from).to_f
     to_value = params.dig(:"interval-option", :values, :to)
-    intervals << (to_value.to_f / 100.0) unless to_value.nil?
+    intervals << (to_value.to_f) unless to_value.nil?
 
     @bell_chart_data = SimulateDelivery.find(simulation_id)
 
@@ -29,6 +29,15 @@ class BellChartDataController < ApplicationController
                                                                               final_payload['mean'],
                                                                               final_payload['std_dev'],
                                                                               alpha_value)
+
+    final_payload['probabilities'] = { 'success' => 0, 'failure' => 0 }
+
+    sucess_rate, failure_rate = NormalDistributionFunctions.intervals_probability(intervals, final_payload['std_dev'], final_payload['mean'])
+
+    if sucess_rate && failure_rate
+      final_payload['probabilities']['success'] = sucess_rate
+      final_payload['probabilities']['failure'] = failure_rate
+    end
 
     final_payload['zones'] = zones
     final_payload['mean_intervals'] = mean_intervals
