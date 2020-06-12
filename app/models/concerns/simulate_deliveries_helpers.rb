@@ -5,7 +5,6 @@ require 'utils/numo_narray_utils'
 
 # Helpers for the Simulate Deliveries endpoint
 module SimulateDeliveriesHelpers
-  include RandomNumbersGenerator
   include NumoNarrayUtils
 
   def self.calculate_mean_of_arrays_per_position(array_of_arrays)
@@ -25,8 +24,9 @@ module SimulateDeliveriesHelpers
     mean_of_arrays
   end
 
-  def self.calculate_mean_for_steps(number_of_simulations, number_of_samples, steps)
+  def self.calculate_mean_for_steps(number_of_simulations, number_of_samples, steps, star_seed_value, end_seed_value)
     final_arrays = []
+    my_rng = RandomNumbersGenerator.new(star_seed_value, end_seed_value)
 
     steps.each do |step|
       distribution_data = step[:distribution_method]
@@ -35,12 +35,12 @@ module SimulateDeliveriesHelpers
       parameters_to_rng = {}
 
       distribution_parameters.each do |param|
-        parameters_to_rng[param[:name].to_sym] = param[:value]
+        parameters_to_rng[param[:name].to_sym] = param[:value].to_f
       end
 
       steps_mean = []
       number_of_simulations.times do
-        generated_samples = RandomNumbersGenerator.distribution_based_generation(number_of_samples, distribution_name, parameters_to_rng)
+        generated_samples = my_rng.distribution_based_generation(number_of_samples, distribution_name, parameters_to_rng) #distribution_based_number_generator
 
         sumup = generated_samples.sum * 1.0
         mean = sumup / number_of_samples.to_f

@@ -8,7 +8,7 @@ describe Ztable do
   context 'success: passing the correct parameters' do
     describe '#z_value' do
       it 'should return the expected result' do
-        result = Ztable.z_value(0.85)
+        result = Ztable.z_score(0.85)
 
         expect(result).to eql(1.04)
       end

@@ -8,3 +8,4 @@ theta,θ,false,General population parameter
 zeta,Ζ,true,Standard normal variable in a PDF the function
 beta,β,false,Usually used for scale
 x,x,false,variable X (usually for percentile)
+lambda,λ,false, Is the inverse of the μ(mean)

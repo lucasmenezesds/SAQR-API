@@ -14,7 +14,7 @@ describe SimulateDeliveriesHelpers do
         allow_any_instance_of(Numo::GSL::Rng).to receive(:gamma).and_return(500)
         allow_any_instance_of(Numo::GSL::Rng).to receive(:weibull).and_return(200)
 
-        result = SimulateDeliveriesHelpers.calculate_mean_for_steps(5, 10, steps)
+        result = SimulateDeliveriesHelpers.calculate_mean_for_steps(5, 10, steps, 100, 200)
 
         expect(result).to eql([251.0, 251.0, 251.0, 251.0, 251.0])
       end

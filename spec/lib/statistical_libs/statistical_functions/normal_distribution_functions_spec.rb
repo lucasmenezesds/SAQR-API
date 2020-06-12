@@ -2,10 +2,23 @@
 
 require 'rspec'
 require_relative '../../../../lib/statistical_libs/statistical_functions/normal_distribution_functions'
-require_relative '../../../fixtures/lib/statistical_libs/normal_distribution_functions_mocks'
 
 describe NormalDistributionFunctions do
   context 'success: passing the correct parameters' do
+    describe '#confidence_interval_for_mean' do
+      it 'should return the expected result Test1' do
+        result = NormalDistributionFunctions.confidence_interval_for_mean(64, 10, 3, 0.90)
+
+        expect(result).to eql(min_interval: 9.385, max_interval: 10.615)
+      end
+
+      it 'should return the expected result Test2' do
+        result = NormalDistributionFunctions.confidence_interval_for_mean(50, 61.8, 3.5, 0.95)
+
+        expect(result).to eql(min_interval: 60.8298, max_interval: 62.7702)
+      end
+    end
+
     describe '#z_value_from_right' do
       it 'should return the expected result' do
         result = NormalDistributionFunctions.z_value_from_right(85)
@@ -16,13 +29,13 @@ describe NormalDistributionFunctions do
 
     describe '#calculate_z_area' do
       it 'should return the expected result with the value smaller than 0.5' do
-        result = described_class.calculate_z_area(0.025)
+        result = described_class.z_score_given_area(0.025)
 
         expect(result).to eql(-1.96)
       end
 
       it 'should return the expected result with the value bigger than 0.5' do
-        result = described_class.calculate_z_area(0.975)
+        result = described_class.z_score_given_area(0.975)
 
         expect(result).to eql(1.96)
       end

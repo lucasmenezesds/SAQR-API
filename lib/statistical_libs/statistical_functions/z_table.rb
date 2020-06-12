@@ -82,9 +82,9 @@ class Ztable
     end
   end
 
-  def self.z_value(percentage)
+  def self.z_score(corresponding_area)
     load_ztable unless @ztable
-    closest_value = @ztable.values.min_by { |num| (percentage - num).abs }
+    closest_value = @ztable.values.min_by { |num| (corresponding_area - num).abs }
     @ztable.key(closest_value)
   end
 end
