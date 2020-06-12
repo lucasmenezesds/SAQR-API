@@ -40,7 +40,7 @@ module SimulateDeliveriesHelpers
 
       steps_mean = []
       number_of_simulations.times do
-        generated_samples = my_rng.distribution_based_generation(number_of_samples, distribution_name, parameters_to_rng)
+        generated_samples = my_rng.distribution_based_generation(number_of_samples, distribution_name, parameters_to_rng) #distribution_based_number_generator
 
         sumup = generated_samples.sum * 1.0
         mean = sumup / number_of_samples.to_f

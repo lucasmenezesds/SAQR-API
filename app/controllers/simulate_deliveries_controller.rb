@@ -43,8 +43,8 @@ class SimulateDeliveriesController < ApplicationController
     simulation_data[:start_seed_value] = start_seed_value
     simulation_data[:end_seed_value] = end_seed_value
 
-    puts 'simulationData'
-    puts simulation_data.inspect
+    # puts 'simulationData'
+    # puts simulation_data.inspect
 
     # TODO: add data field validation before adding to the DB
     @simulate_delivery = SimulateDelivery.new(steps: steps, simulation_data: simulation_data, label: label)

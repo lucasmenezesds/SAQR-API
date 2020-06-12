@@ -18,7 +18,7 @@ class BellChartDataController < ApplicationController
     intervals = []
     intervals << params.dig(:"interval-option", :values, :from).to_f
     to_value = params.dig(:"interval-option", :values, :to)
-    intervals << (to_value.to_f) unless to_value.nil?
+    intervals << to_value.to_f unless to_value.nil?
 
     @bell_chart_data = SimulateDelivery.find(simulation_id)
 
