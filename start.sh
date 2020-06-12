@@ -1,7 +1,4 @@
 #!/bin/bash
 
-rails db:drop && \
-rails db:create && \
-rails db:migrate && \
-rails db:seed &&
+rm -f /opt/app/tmp/pids/server.pid && \
 rails server -b 0.0.0.0
