@@ -53,7 +53,7 @@ describe NormalDistributionFunctions do
       it 'should return the expected result' do
         result = described_class.area_to_paint([0.025, 0.975], 1, 10)
 
-        expect(result).to eql([{ color: false, value: 8.04 }, { color: true, value: 11.96 }])
+        expect(result).to eql([{ color: false, value: 0.025 }, { color: true, value: 0.975 }])
       end
     end
   end
