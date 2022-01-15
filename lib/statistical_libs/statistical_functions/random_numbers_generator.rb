@@ -19,12 +19,12 @@ class RandomNumbersGenerator
 
     case distribution_name
     when 'exp'
-      mu = distribution_parameters[:mu].to_f
+      mu = 1 / distribution_parameters[:lambda].to_f # lambda = 1 / mean  & mean = 1 / lambda
       final_val = gsl_random_generator.exponential(mu)
     when 'lognorm'
-      zeta = distribution_parameters[:zeta].to_f
+      mu = distribution_parameters[:mu].to_f
       sigma = distribution_parameters[:sigma].to_f
-      final_val = gsl_random_generator.lognormal(zeta, sigma)
+      final_val = gsl_random_generator.lognormal(mu, sigma)
     when 'gamma'
       alpha = distribution_parameters[:alpha].to_f
       beta = distribution_parameters[:beta].to_f
