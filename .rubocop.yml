@@ -12,6 +12,12 @@ AllCops:
   DisplayCopNames: true
   TargetRubyVersion: 2.5
 
+Metrics/MethodLength:
+  Max: 40
+
+Metrics/AbcSize:
+  Max: 40
+
 Metrics/BlockLength:
   CountComments: true  # count full line comments?
   Max: 25
@@ -21,7 +27,7 @@ Metrics/BlockLength:
 
 Metrics/LineLength:
   Description: 'Limit lines to 80 characters.'
-  Max: 120
+  Max: 150
   IgnoredPatterns: ['\A#']
 
 Style/DateTime:

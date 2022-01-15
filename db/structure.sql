@@ -1,9 +1,11 @@
 SET statement_timeout = 0;
 SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
 SET check_function_bodies = false;
+SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
@@ -171,6 +173,104 @@ ALTER SEQUENCE public.deliveries_id_seq OWNED BY public.deliveries.id;
 
 
 --
+-- Name: distribution_methods; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.distribution_methods (
+    id bigint NOT NULL,
+    name character varying,
+    short_name character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: distribution_methods_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.distribution_methods_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: distribution_methods_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.distribution_methods_id_seq OWNED BY public.distribution_methods.id;
+
+
+--
+-- Name: distribution_methods_parameters; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.distribution_methods_parameters (
+    id bigint NOT NULL,
+    distribution_method_id bigint,
+    distribution_parameter_id bigint,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: distribution_methods_parameters_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.distribution_methods_parameters_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: distribution_methods_parameters_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.distribution_methods_parameters_id_seq OWNED BY public.distribution_methods_parameters.id;
+
+
+--
+-- Name: distribution_parameters; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.distribution_parameters (
+    id bigint NOT NULL,
+    name character varying,
+    symbol character varying,
+    uppercase boolean,
+    meaning character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: distribution_parameters_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.distribution_parameters_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: distribution_parameters_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.distribution_parameters_id_seq OWNED BY public.distribution_parameters.id;
+
+
+--
 -- Name: drivers; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -317,6 +417,39 @@ CREATE TABLE public.schema_migrations (
 
 
 --
+-- Name: simulate_deliveries; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.simulate_deliveries (
+    id bigint NOT NULL,
+    label character varying,
+    simulation_data jsonb,
+    steps jsonb,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: simulate_deliveries_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.simulate_deliveries_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: simulate_deliveries_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.simulate_deliveries_id_seq OWNED BY public.simulate_deliveries.id;
+
+
+--
 -- Name: storage_times; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -420,84 +553,112 @@ ALTER SEQUENCE public.trucks_id_seq OWNED BY public.trucks.id;
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: cargos id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.cargos ALTER COLUMN id SET DEFAULT nextval('public.cargos_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: cities id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.cities ALTER COLUMN id SET DEFAULT nextval('public.cities_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: cities_distances_collections id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.cities_distances_collections ALTER COLUMN id SET DEFAULT nextval('public.cities_distances_collections_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: deliveries id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.deliveries ALTER COLUMN id SET DEFAULT nextval('public.deliveries_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: distribution_methods id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.distribution_methods ALTER COLUMN id SET DEFAULT nextval('public.distribution_methods_id_seq'::regclass);
+
+
+--
+-- Name: distribution_methods_parameters id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.distribution_methods_parameters ALTER COLUMN id SET DEFAULT nextval('public.distribution_methods_parameters_id_seq'::regclass);
+
+
+--
+-- Name: distribution_parameters id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.distribution_parameters ALTER COLUMN id SET DEFAULT nextval('public.distribution_parameters_id_seq'::regclass);
+
+
+--
+-- Name: drivers id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.drivers ALTER COLUMN id SET DEFAULT nextval('public.drivers_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: load_times id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.load_times ALTER COLUMN id SET DEFAULT nextval('public.load_times_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: picking_times id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.picking_times ALTER COLUMN id SET DEFAULT nextval('public.picking_times_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: receive_times id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.receive_times ALTER COLUMN id SET DEFAULT nextval('public.receive_times_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: simulate_deliveries id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.simulate_deliveries ALTER COLUMN id SET DEFAULT nextval('public.simulate_deliveries_id_seq'::regclass);
+
+
+--
+-- Name: storage_times id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.storage_times ALTER COLUMN id SET DEFAULT nextval('public.storage_times_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: transportation_times id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.transportation_times ALTER COLUMN id SET DEFAULT nextval('public.transportation_times_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: trucks id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.trucks ALTER COLUMN id SET DEFAULT nextval('public.trucks_id_seq'::regclass);
 
 
 --
--- Name: ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: ar_internal_metadata ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.ar_internal_metadata
@@ -505,7 +666,7 @@ ALTER TABLE ONLY public.ar_internal_metadata
 
 
 --
--- Name: cargos_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: cargos cargos_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.cargos
@@ -513,7 +674,7 @@ ALTER TABLE ONLY public.cargos
 
 
 --
--- Name: cities_distances_collections_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: cities_distances_collections cities_distances_collections_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.cities_distances_collections
@@ -521,7 +682,7 @@ ALTER TABLE ONLY public.cities_distances_collections
 
 
 --
--- Name: cities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: cities cities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.cities
@@ -529,7 +690,7 @@ ALTER TABLE ONLY public.cities
 
 
 --
--- Name: deliveries_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: deliveries deliveries_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.deliveries
@@ -537,7 +698,31 @@ ALTER TABLE ONLY public.deliveries
 
 
 --
--- Name: drivers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: distribution_methods_parameters distribution_methods_parameters_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.distribution_methods_parameters
+    ADD CONSTRAINT distribution_methods_parameters_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: distribution_methods distribution_methods_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.distribution_methods
+    ADD CONSTRAINT distribution_methods_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: distribution_parameters distribution_parameters_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.distribution_parameters
+    ADD CONSTRAINT distribution_parameters_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: drivers drivers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.drivers
@@ -545,7 +730,7 @@ ALTER TABLE ONLY public.drivers
 
 
 --
--- Name: load_times_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: load_times load_times_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.load_times
@@ -553,7 +738,7 @@ ALTER TABLE ONLY public.load_times
 
 
 --
--- Name: picking_times_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: picking_times picking_times_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.picking_times
@@ -561,7 +746,7 @@ ALTER TABLE ONLY public.picking_times
 
 
 --
--- Name: receive_times_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: receive_times receive_times_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.receive_times
@@ -569,7 +754,7 @@ ALTER TABLE ONLY public.receive_times
 
 
 --
--- Name: schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.schema_migrations
@@ -577,7 +762,15 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
--- Name: storage_times_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: simulate_deliveries simulate_deliveries_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.simulate_deliveries
+    ADD CONSTRAINT simulate_deliveries_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: storage_times storage_times_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.storage_times
@@ -585,7 +778,7 @@ ALTER TABLE ONLY public.storage_times
 
 
 --
--- Name: transportation_times_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: transportation_times transportation_times_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.transportation_times
@@ -593,7 +786,7 @@ ALTER TABLE ONLY public.transportation_times
 
 
 --
--- Name: trucks_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: trucks trucks_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.trucks
@@ -692,6 +885,20 @@ CREATE INDEX index_deliveries_on_transportation_time_id ON public.deliveries USI
 
 
 --
+-- Name: index_distribution_methods_parameters_on_distribution_method_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_distribution_methods_parameters_on_distribution_method_id ON public.distribution_methods_parameters USING btree (distribution_method_id);
+
+
+--
+-- Name: index_distribution_methods_parameters_on_distribution_param_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_distribution_methods_parameters_on_distribution_param_id ON public.distribution_methods_parameters USING btree (distribution_parameter_id);
+
+
+--
 -- Name: index_transportation_times_on_destination_city_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -713,7 +920,7 @@ CREATE INDEX index_trucks_on_driver_id ON public.trucks USING btree (driver_id);
 
 
 --
--- Name: fk_rails_006d56e5b4; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: deliveries fk_rails_006d56e5b4; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.deliveries
@@ -721,7 +928,7 @@ ALTER TABLE ONLY public.deliveries
 
 
 --
--- Name: fk_rails_032c7214c9; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: transportation_times fk_rails_032c7214c9; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.transportation_times
@@ -729,7 +936,15 @@ ALTER TABLE ONLY public.transportation_times
 
 
 --
--- Name: fk_rails_3fbc1f60a9; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: distribution_methods_parameters fk_rails_05f58e2456; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.distribution_methods_parameters
+    ADD CONSTRAINT fk_rails_05f58e2456 FOREIGN KEY (distribution_method_id) REFERENCES public.distribution_methods(id);
+
+
+--
+-- Name: deliveries fk_rails_3fbc1f60a9; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.deliveries
@@ -737,7 +952,15 @@ ALTER TABLE ONLY public.deliveries
 
 
 --
--- Name: fk_rails_67a574375d; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: distribution_methods_parameters fk_rails_552ce28228; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.distribution_methods_parameters
+    ADD CONSTRAINT fk_rails_552ce28228 FOREIGN KEY (distribution_parameter_id) REFERENCES public.distribution_parameters(id);
+
+
+--
+-- Name: deliveries fk_rails_67a574375d; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.deliveries
@@ -745,7 +968,7 @@ ALTER TABLE ONLY public.deliveries
 
 
 --
--- Name: fk_rails_77c8babecf; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: trucks fk_rails_77c8babecf; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.trucks
@@ -753,7 +976,7 @@ ALTER TABLE ONLY public.trucks
 
 
 --
--- Name: fk_rails_7d5ede56bf; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: deliveries fk_rails_7d5ede56bf; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.deliveries
@@ -761,7 +984,7 @@ ALTER TABLE ONLY public.deliveries
 
 
 --
--- Name: fk_rails_7f64af6cb1; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: cargos fk_rails_7f64af6cb1; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.cargos
@@ -769,7 +992,7 @@ ALTER TABLE ONLY public.cargos
 
 
 --
--- Name: fk_rails_7fee432ebc; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: cargos fk_rails_7fee432ebc; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.cargos
@@ -777,7 +1000,7 @@ ALTER TABLE ONLY public.cargos
 
 
 --
--- Name: fk_rails_d45a734b89; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: transportation_times fk_rails_d45a734b89; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.transportation_times
@@ -785,7 +1008,7 @@ ALTER TABLE ONLY public.transportation_times
 
 
 --
--- Name: fk_rails_ef50f59024; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: deliveries fk_rails_ef50f59024; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.deliveries
@@ -814,6 +1037,10 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180531183110'),
 ('20180602215511'),
 ('20180603033923'),
-('20180616204541');
+('20180616204541'),
+('20191215200030'),
+('20191215200031'),
+('20191215200034'),
+('20200102035245');
 
 

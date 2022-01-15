@@ -6,7 +6,7 @@ git_source(:github) do |repo_name|
 end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.1.4'
+gem 'rails', '~> 5.1.7'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.18'
 # Use Puma as the app server
@@ -30,6 +30,17 @@ gem 'active_model_serializers', '~> 0.10.7'
 # A plugin for versioning Rails based RESTful APIs.
 gem 'versionist', '~> 1.7'
 
+### Statistical Gems ###
+# Numo::NArray - New NArray class library in Ruby/Numo.
+gem 'numo-narray', '~> 0.9.1.3'
+# GSL interface for Ruby/Numo::NArray
+gem 'numo-gsl', '~> 0.1.2'
+
+gem 'rb-gsl', '~> 1.16', '>= 1.16.0.6'
+
+gem 'distribution', '~> 0.7.3'
+gem 'statsample', '~> 2.1'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -51,6 +62,7 @@ group :development, :test do
 end
 
 group :development do
+  gem 'better_errors', '~> 2.5'
   gem 'listen', '>= 3.0.5', '< 3.2'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
@@ -58,6 +70,9 @@ group :development do
 
   gem 'guard-rspec', require: false
   gem 'rubycritic', require: false
+  gem 'rubocop', '~> 0.77.0'
+  gem 'spreadsheet', '~>1.1.1', require: false
+  gem 'mechanize', '~>2.7.5', require: false
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

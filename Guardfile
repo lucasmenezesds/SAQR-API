@@ -72,4 +72,13 @@ guard :rspec, cmd: 'bundle exec rspec' do
   watch(%r{^lib/seed_generator/seed_models/(.+)\.rb}) do |m|
     "spec/lib/seed_generator/seed_models/#{m[1]}_spec.rb"
   end
+
+  # Added created lib files
+  watch(%r{^lib/utils/(.+)\.rb}) do |m|
+    "spec/lib/utils/#{m[1]}_spec.rb"
+  end
+  # Added created SPECS files on lib
+  watch(%r{^spec/lib/utils/(.+)\.rb}) do |m|
+    "spec/lib/utils/#{m[1]}_spec.rb"
+  end
 end

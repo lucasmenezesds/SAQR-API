@@ -7,8 +7,8 @@ if Rails.env == 'test'
   number_of_cities = 2
   number_of_deliveries = 10
 else
-  number_of_cities = 300
-  number_of_deliveries = 50_000
+  number_of_cities = 30
+  number_of_deliveries = 50
 end
 
 seed_generator = DbSeedGenerator.new(number_of_cities, 100, number_of_deliveries)

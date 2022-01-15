@@ -17,5 +17,5 @@ end
 
 load_seed 'city'
 load_seed 'db_generator'
-
+load_seed 'distribution_methods'
 

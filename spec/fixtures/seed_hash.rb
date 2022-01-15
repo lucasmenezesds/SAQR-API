@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/MethodLength
 def seed_hash
   seeds_hash = {}
   seeds_hash['picking_time'] = PickingTime.new(duration_time: 3185,
@@ -40,5 +39,3 @@ def seed_hash
 
   seeds_hash
 end
-
-# rubocop:enable Metrics/MethodLength

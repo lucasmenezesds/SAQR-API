@@ -9,8 +9,6 @@ describe SeedClass do
   let(:seed_class) do
     described_class.new
   end
-
-  # rubocop:disable Metrics/LineLength
   shared_examples 'shared example add_time with valid params' do |expected_datetime, received_datetime, generated_time, time_type|
     it "should return the received date plus #{generated_time} #{time_type}" do
       allow(seed_class)
@@ -22,7 +20,6 @@ describe SeedClass do
       expect(expected_datetime).to eql(final_date_time)
     end
   end
-  # rubocop:enable Metrics/LineLength
 
   shared_examples 'add_time shared example with invalid params' do |received_datetime, generated_time, time_type|
     it 'should return the received date without changes' do
