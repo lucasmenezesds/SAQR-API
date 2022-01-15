@@ -1,0 +1,8 @@
+method_name,parameter_name,uppercase
+exponential,lambda,false
+lognormal,mu,false
+lognormal,sigma,false
+gamma,alpha,false
+gamma,beta,false
+weibull,alpha,false
+weibull,beta,false

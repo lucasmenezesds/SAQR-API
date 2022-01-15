@@ -20,6 +20,10 @@ default: &default
   # For details on connection pooling, see Rails configuration guide
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: <%= ENV['SAQR_API_DATABASE_USERNAME'] %>
+  password: <%= ENV['SAQR_API_DATABASE_PASSWORD'] %>
+  host: <%= ENV['SAQR_API_DATABASE_HOST'] %>
+  port: <%= ENV['SAQR_API_DATABASE_PORT'] %>
 
 development:
   <<: *default

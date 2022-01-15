@@ -1,0 +1,11 @@
+name,symbol,uppercase,meaning
+alpha,α,false,Significance level in hypothesis test and usually used for shape
+mu,μ,false,Mean of a population
+sigma,σ,false,Standard deviation of a population
+sigma,∑,true,Summation
+beta,Β,true,Regression coefficient of a population
+theta,θ,false,General population parameter
+zeta,Ζ,true,Standard normal variable in a PDF the function
+beta,β,false,Usually used for scale
+x,x,false,variable X (usually for percentile)
+lambda,λ,false, Is the inverse of the μ(mean)

@@ -2,5 +2,5 @@
 
 SAQR_API is the Backend of the SAQR Project
 
-* Ruby Version: 2.4.3
+* Ruby Version: 2.5.3
 * Dependencies (Postgresql)
