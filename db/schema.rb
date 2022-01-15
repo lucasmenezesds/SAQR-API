@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180531183110) do
+ActiveRecord::Schema.define(version: 2020_01_02_035245) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,18 @@ ActiveRecord::Schema.define(version: 20180531183110) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "cities_distances_collections", force: :cascade do |t|
+    t.jsonb "json_data", default: "{}", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index "((json_data ->> 'destination_id'::text))", name: "cities_dist_coll_destination_id"
+    t.index "((json_data ->> 'destination_name'::text))", name: "cities_dist_coll_destination_name"
+    t.index "((json_data ->> 'distance_value'::text))", name: "cities_dist_coll_distance_value"
+    t.index "((json_data ->> 'origin_id'::text))", name: "cities_dist_coll_origin_id"
+    t.index "((json_data ->> 'origin_name'::text))", name: "cities_dist_coll_origin_name"
+    t.index ["json_data"], name: "index_cities_distances_collections_on_json_data", using: :gin
+  end
+
   create_table "deliveries", force: :cascade do |t|
     t.bigint "picking_time_id"
     t.bigint "load_time_id"
@@ -41,11 +53,37 @@ ActiveRecord::Schema.define(version: 20180531183110) do
     t.datetime "delivery_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "total_duration"
     t.index ["load_time_id"], name: "index_deliveries_on_load_time_id"
     t.index ["picking_time_id"], name: "index_deliveries_on_picking_time_id"
     t.index ["receive_time_id"], name: "index_deliveries_on_receive_time_id"
     t.index ["storage_time_id"], name: "index_deliveries_on_storage_time_id"
     t.index ["transportation_time_id"], name: "index_deliveries_on_transportation_time_id"
+  end
+
+  create_table "distribution_methods", force: :cascade do |t|
+    t.string "name"
+    t.string "short_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "distribution_methods_parameters", force: :cascade do |t|
+    t.bigint "distribution_method_id"
+    t.bigint "distribution_parameter_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["distribution_method_id"], name: "index_distribution_methods_parameters_on_distribution_method_id"
+    t.index ["distribution_parameter_id"], name: "index_distribution_methods_parameters_on_distribution_param_id"
+  end
+
+  create_table "distribution_parameters", force: :cascade do |t|
+    t.string "name"
+    t.string "symbol"
+    t.boolean "uppercase"
+    t.string "meaning"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "drivers", force: :cascade do |t|
@@ -83,6 +121,14 @@ ActiveRecord::Schema.define(version: 20180531183110) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "start_time"
+  end
+
+  create_table "simulate_deliveries", force: :cascade do |t|
+    t.string "label"
+    t.jsonb "simulation_data"
+    t.jsonb "steps"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "storage_times", force: :cascade do |t|
@@ -123,6 +169,8 @@ ActiveRecord::Schema.define(version: 20180531183110) do
   add_foreign_key "deliveries", "receive_times"
   add_foreign_key "deliveries", "storage_times"
   add_foreign_key "deliveries", "transportation_times"
+  add_foreign_key "distribution_methods_parameters", "distribution_methods"
+  add_foreign_key "distribution_methods_parameters", "distribution_parameters"
   add_foreign_key "transportation_times", "cities", column: "destination_city_id"
   add_foreign_key "transportation_times", "cities", column: "origin_city_id"
   add_foreign_key "trucks", "drivers"

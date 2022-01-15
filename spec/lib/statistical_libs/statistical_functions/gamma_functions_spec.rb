@@ -48,7 +48,6 @@ describe GammaFunctions do
     it 'should return an hash with the expected keys and values' do
       result = gamma_functions.calculate_mle(rgamma_generated)
 
-      puts result.inspect
       expect(result).to eql(mle_result)
     end
   end
