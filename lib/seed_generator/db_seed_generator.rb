@@ -132,9 +132,8 @@ class DbSeedGenerator
 
   def generate_complete_delivery(current_id)
     delivery_hash                  = {}
-    delivery_hash['delivery_date'] = Faker::Time.between(@range_date[0],
-                                                         @range_date[1],
-                                                         :day).to_datetime
+    delivery_hash['delivery_date'] = Faker::Time.between(from:@range_date[0],
+                                                         to: @range_date[1]).to_datetime
 
     create_delivery_data(delivery_hash, current_id)
     create_cargo(current_id)

@@ -48,7 +48,11 @@ describe GammaFunctions do
     it 'should return an hash with the expected keys and values' do
       result = gamma_functions.calculate_mle(rgamma_generated)
 
-      expect(result).to eql(mle_result)
+      mle_result.each do |key, mle_value|
+        next if mle_value.is_a?(Array)
+        expect(result[key].round(5)).to eql(mle_value.round(5))
+      end
+      expect(result[:ln_data]).to eql(mle_result[:ln_data])
     end
   end
 
